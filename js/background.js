@@ -1,30 +1,26 @@
+window.indexedDB = window.indexedDB || window.webkitIndexedDB;
+window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction;
+window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange;
+
+var db_req = window.indexedDB.open("pass_logs", 1);
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-	if(request.action=="record")
-		start_recording(sender.tab);
+	var trans=window.db_req.result.transaction(["logs"], 'readwrite'),
+		store=trans.objectStore("logs");
+	if(request.action=="save_data"){
+		store.add({host:request.host,data:request.data,time:(new Date()).toJSON()});
+	}
+	var all=store.getAll();
 	sendResponse({});
 });
 
-function start_recording(sender){
-	console.log(sender);
-	if(!sender.id)
-		return;
-	chrome.webRequest.onBeforeRequest.addListener(function(request){
-		if(request.method=="POST"){
-			log_data_from_request(request.requestBody.formData);
-		}
-		console.log(request);
-		return {};
-	},{
-		urls:["<all_urls>"],
-		tabId:sender.id
-	},["blocking","requestBody"]);
-}
-
-function end_recording(){
-	
-}
-
-//log the data here into a DB perhaps
-function log_data_from_request(body){
-
-}
+chrome.runtime.onInstalled.addListener(function(){
+	window.db_req.onupgradeneeded = function(e){
+		var db = e.target.result;
+		var store = db.createObjectStore("logs", {keyPath: "id",autoIncrement:true});
+		
+		store.createIndex("host","host");
+		store.createIndex("inputs","inputs");
+		store.createIndex("time","time");
+	}
+});
