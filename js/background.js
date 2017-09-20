@@ -9,9 +9,15 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 		store=trans.objectStore("logs");
 	if(request.action=="save_data"){
 		store.add({host:request.host,data:request.data,time:(new Date()).toJSON()});
+		sendResponse({});
 	}
-	var all=store.getAll();
-	sendResponse({});
+	else if(request.action=="fetch_data"){
+		store.getAll().onsuccess=function(e){
+			console.log(e.target,e.target.result);
+			sendResponse({result:e.target.result});
+		}
+		return true;
+	}
 });
 
 chrome.runtime.onInstalled.addListener(function(){

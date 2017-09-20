@@ -1,0 +1,21 @@
+*,*:before,*:after{
+	box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+}
+body{
+	font-size:18px;
+	line-height:1.4;
+	font-family:verdana;
+}
+table{
+	border-collapse:collapse;
+	border:1px solid #ccc;
+}
+table thead td{
+	font-weight:bold;
+}
+table td{
+	border:1px solid #ccc;
+	text-align:center;
+	padding:5px 10px;
+}

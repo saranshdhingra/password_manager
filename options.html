@@ -4,11 +4,34 @@
 	<title>Password Logger Options Page</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<link rel="stylesheet" href="css/options.css">
 </head>
 <body>
 	<div id="root">
-		
+		<h3>Saved Records</h3>
+		<table id="saved_records">
+			<thead>
+				<tr>
+					<td>S.No.</td>
+					<td>Host</td>
+					<td>Credentials</td>
+					<td>Saved On</td>
+					<td>&nbsp;</td>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
 	</div>
+	<script type="text/x-template" id="row_template">
+		<tr>
+			<td>{{serial}}</td>
+			<td>{{host}}</td>
+			<td>{{data}}</td>
+			<td>{{time}}</td>
+			<td><a href="#" class="edit_data">Edit</a><a href="#" class="delete">Delete</a></td>
+		</tr>
+	</script>
 	<script src="js/options.js"></script>
 </body>
 </html>
