@@ -6,6 +6,13 @@
 * These records will be visible to the users in the options page
 * Users can even edit/delete these records.
 
+### Features
+
+* Saves all visible text/email/password inputs from a form tht contains at least 1 password input
+* No notification of saving
+* You can view all saved passwords in a separate page.
+* You can edit/delete a set of passwords.
+
 ### Why haven't I used *webRequests*
 In previous commits you might find an implementation(raw) for webrequests. But I realized, webrequests get data at a very later stage. Webpage JS might have encoded the data by then, or a lot of extra data might be present, CSR tokens, oauth tokens and many other hidden fields.
 The users are more interested in the visible fields(usernames, emails and passwords). That we do store.
