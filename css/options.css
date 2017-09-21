@@ -5,7 +5,20 @@
 body{
 	font-size:18px;
 	line-height:1.4;
-	font-family:verdana;
+	font-family:arial;
+	font-weight:400;
+}
+.btn{
+	cursor:pointer;
+	color:#fff;
+	background:#78e86b;
+	border-radius:5px;
+	padding:5px 10px;
+	border:none;
+	box-shadow:none;
+}
+.btn:active{
+	outline:none;
 }
 table{
 	border-collapse:collapse;
@@ -18,4 +31,50 @@ table td{
 	border:1px solid #ccc;
 	text-align:center;
 	padding:5px 10px;
+}
+table .fa-pencil{
+	color:#7575ff;
+}
+table .fa-trash-empty{
+	color:#fb5b5b;
+}
+table .actions>a{
+	opacity:0;
+	pointer-events:none;
+	transition:opacity .4s ease-out;
+}
+table tr:hover .actions>a{
+	opacity:1;
+	pointer-events:all;
+}
+table .data_cell{
+	text-align:left;
+}
+table .data_cell .field{
+	margin:5px 0;
+}
+table .data_cell .field input[type="text"]{
+	display:none;
+	padding:5px 10px;
+	border:1px solid #ccc;
+}
+table tr.editing .data_cell .field input[type="text"]{
+	display:inline-block;
+}
+table .data_cell .value{
+	background:#F8F8F8;
+	border:1px solid #ccc;
+	padding:2px 5px;
+}
+table tr.editing .data_cell .value{
+	display:none;
+}
+table .save_btn{
+	display:none;
+}
+table tr.editing .save_btn{
+	display:block;
+}
+table tr.editing .actions a{
+	display:none;
 }

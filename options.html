@@ -4,6 +4,7 @@
 	<title>Password Logger Options Page</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<link rel="stylesheet" href="css/fontello.css">
 	<link rel="stylesheet" href="css/options.css">
 </head>
 <body>
@@ -24,14 +25,19 @@
 		</table>
 	</div>
 	<script type="text/x-template" id="row_template">
-		<tr>
+		<tr data-id="{{id}}">
 			<td>{{serial}}</td>
 			<td>{{host}}</td>
-			<td>{{data}}</td>
+			<td class="data_cell">{{data}}</td>
 			<td>{{time}}</td>
-			<td><a href="#" class="edit_data">Edit</a><a href="#" class="delete">Delete</a></td>
+			<td class="actions">
+				<a href="#" class="edit_data"><i class='fa fa-pencil'></i></a>
+				<a href="#" class="delete_data"><i class='fa fa-trash-empty'></i></a>
+				<button class="save_btn btn">Save</button>
+			</td>
 		</tr>
 	</script>
+	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/options.js"></script>
 </body>
 </html>

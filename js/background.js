@@ -13,8 +13,33 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 	}
 	else if(request.action=="fetch_data"){
 		store.getAll().onsuccess=function(e){
-			console.log(e.target,e.target.result);
+			// console.log(e.target,e.target.result);
 			sendResponse({result:e.target.result});
+		}
+		return true;
+	}
+	else if(request.action=="edit_data"){
+		store.get(parseInt(request.id)).onsuccess=function(e){
+			var row=e.target.result;
+			row.data=request.data;
+			var op=store.put(row);
+			op.onsuccess=function(){
+				sendResponse({msg:'Records edited successfully!'});
+			}
+			op.onerror=function(err){
+				sendResponse({msg:'Records editing failed!'});
+			}
+		}
+		return true;
+	}
+	else if(request.action=="delete_data"){
+		var id=parseInt(request.id);
+		var op=store.delete(id);
+		op.onsuccess=function(){
+			sendResponse({msg:'Record Deleted successfully!'});
+		}
+		op.onerror=function(err){
+			sendResponse({msg:'Records deletion failed!'});
 		}
 		return true;
 	}

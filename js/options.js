@@ -2,20 +2,59 @@
 
 //change this method
 // if(password=="testing"){
+	fetch_data();
+// }
+
+$("body").on("click",".edit_data",function(e){
+	e.preventDefault();
+	$(this).parents("tr").addClass("editing");
+});
+
+$("body").on("click",".delete_data",function(e){
+	e.preventDefault();
+	var choice=confirm("Are you sure? This can't be undone!"),
+		id=$(this).parents("tr").attr("data-id");
+	if(choice===true){
+		chrome.runtime.sendMessage({action:'delete_data',id:id},function(response){
+			alert(response.msg);
+			fetch_data();
+		});
+	}
+});
+
+$("body").on("click",".save_btn",function(){
+	var row=$(this).parents("tr"),
+		inputs=row.find(".data_cell").find("input[type='text']"),
+		data=[];
+
+	for(var i=0;i<inputs.length;i++){
+		var input=inputs[i];
+
+		data.push({'name':input.name,'value':input.value});
+	}
+
+	row.removeClass("editing");
+	chrome.runtime.sendMessage({action:'edit_data',data:JSON.stringify(data),id:row.attr("data-id")},function(response){
+		alert(response.msg);
+		fetch_data();
+	});
+});
+
+function fetch_data(){
 	chrome.runtime.sendMessage({action:'fetch_data'},function(response){
 		var rows=response.result,
 			html="",
-			template=document.getElementById("row_template").innerHTML;
+			template=$("#row_template").html();
 		for(var i=0;i<rows.length;i++){
 			var row=rows[i],
 				credentials=format_credentials(row.data),
-				insert=replaceAll(template,{"{{serial}}":i,"{{host}}":row.host,"{{data}}":credentials,"{{time}}":format_time(row.time)});
+				insert=replaceAll(template,{"{{id}}":row.id,"{{serial}}":i+1,"{{host}}":row.host,"{{data}}":credentials,"{{time}}":format_time(row.time)});
 
 			html+=insert;
 		}
-		document.getElementById("saved_records").getElementsByTagName("tbody")[0].innerHTML=html;
+		$("#saved_records").find("tbody").html(html);
 	});
-// }
+}
 
 //pairs is an object, whose key is what to replace and value is what to replace with
 function replaceAll(str,pairs){
@@ -32,14 +71,19 @@ function format_credentials(data){
 		data=JSON.parse(data);
 		var ret="";
 		for(var i=0;i<data.length;i++){
+			// console.log(data[i]);
 			var field=data[i],
 				name=field.name.length?field.name:"<em>Blank</em>",
 				value=field.value.length?field.value:"<em>&lt;Blank&gt;</em>";
-			ret+=name+":"+value+"<br>";
+			ret+="<div class='field'>" + 
+					name + 
+					": <input type='text' name='"+name+"' value='"+value+"' >" + 
+					"<span class='value'>"+value+"</span></div>";
 		}
 		return ret;
 	}
 	catch(err){
+		console.log(err);
 		return "Error!";
 	}
 }
