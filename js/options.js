@@ -1,4 +1,5 @@
 // var password=prompt("Input your password");
+var saved_records=[];
 
 //change this method
 // if(password=="testing"){
@@ -40,20 +41,76 @@ $("body").on("click",".save_btn",function(){
 	});
 });
 
+$("#show_names").on("change",function(){
+	if($(this).prop('checked'))
+		$("#saved_records").addClass("show_field_names");
+	else
+		$("#saved_records").removeClass("show_field_names");
+
+	filter_data();
+});
+
+$("#filter").on("keyup change",function(){
+	filter_data();
+})
+
 function fetch_data(){
+	window.saved_records=[];
 	chrome.runtime.sendMessage({action:'fetch_data'},function(response){
-		var rows=response.result,
-			html="",
-			template=$("#row_template").html();
-		for(var i=0;i<rows.length;i++){
-			var row=rows[i],
-				credentials=format_credentials(row.data),
-				insert=replaceAll(template,{"{{id}}":row.id,"{{serial}}":i+1,"{{host}}":row.host,"{{data}}":credentials,"{{time}}":format_time(row.time)});
+		var rows=response.result;
+
+		rows.map(function(row){
+			window.saved_records.push({
+				id:row.id,
+				host:row.host,
+				data:JSON.parse(row.data),
+				time:format_time(row.time)
+			});
+		});
+
+		filter_data();
+	});
+}
+
+//this function filters through the saved_records and inserts the html in our table
+function filter_data(){
+	var html="",
+		template=$("#row_template").html();
+	$(window.saved_records).each(function(i){
+		var matched=match_in_record(this);
+		if(matched){
+			var credentials=format_credentials(this.data),
+				insert=replaceAll(template,{"{{id}}":this.id,"{{serial}}":i+1,"{{host}}":this.host,"{{data}}":credentials,"{{time}}":format_time(this.time)});
 
 			html+=insert;
 		}
-		$("#saved_records").find("tbody").html(html);
 	});
+	$("#saved_records").find("tbody").html(html);
+}
+
+
+function match_in_record(record){
+	var filter=$("#filter").val().trim(),
+		matched=false;
+	if(filter.length==0)
+		return true;
+
+	//firstly simply match in host or time
+	if(record.host.indexOf(filter)!=-1 || record.time.indexOf(filter)!=-1)
+		matched=true;
+	//now match in each field values
+	$(record.data).each(function(){
+		if(this.value.indexOf(filter)!=-1){
+			matched=true;
+			return;
+		}
+		if($("#saved_records").hasClass("show_field_names") && this.name.indexOf(filter)!=-1){
+			matched=true;
+			return;
+		}
+	});
+
+	return matched;
 }
 
 //pairs is an object, whose key is what to replace and value is what to replace with
@@ -67,25 +124,18 @@ function replaceAll(str,pairs){
 
 //helper func
 function format_credentials(data){
-	try{
-		data=JSON.parse(data);
-		var ret="";
-		for(var i=0;i<data.length;i++){
-			// console.log(data[i]);
-			var field=data[i],
-				name=field.name.length?field.name:"<em>Blank</em>",
-				value=field.value.length?field.value:"<em>&lt;Blank&gt;</em>";
-			ret+="<div class='field'>" + 
-					name + 
-					": <input type='text' name='"+name+"' value='"+value+"' >" + 
-					"<span class='value'>"+value+"</span></div>";
-		}
-		return ret;
+	var ret="";
+	for(var i=0;i<data.length;i++){
+		// console.log(data[i]);
+		var field=data[i],
+			name=field.name.length?field.name:"<em>Blank</em>",
+			value=field.value.length?field.value:"<em>&lt;Blank&gt;</em>";
+		ret+="<div class='field'>" + 
+				"<span class='field_name'>"+name + ": </span>" +
+				"<input type='text' name='"+name+"' value='"+value+"' >" + 
+				"<span class='value'>"+value+"</span></div>";
 	}
-	catch(err){
-		console.log(err);
-		return "Error!";
-	}
+	return ret;
 }
 
 //simple helper to format the time string into our choice

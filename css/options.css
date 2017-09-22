@@ -2,11 +2,25 @@
 	box-sizing:border-box;
 	-webkit-box-sizing:border-box;
 }
+html{
+	height:100%;
+}
 body{
 	font-size:18px;
 	line-height:1.4;
 	font-family:arial;
 	font-weight:400;
+	margin:0;
+	height:100%;
+	background:#ccc;
+}
+#root{
+	background:#fff;
+	padding:1px 0;
+	width:80%;
+	margin:0 auto;
+	text-align:center;
+	height:100%;
 }
 .btn{
 	cursor:pointer;
@@ -23,6 +37,7 @@ body{
 table{
 	border-collapse:collapse;
 	border:1px solid #ccc;
+	margin:auto;
 }
 table thead td{
 	font-weight:bold;
@@ -58,6 +73,12 @@ table .data_cell .field input[type="text"]{
 	padding:5px 10px;
 	border:1px solid #ccc;
 }
+table .data_cell .field_name{
+	display:none;
+}
+table.show_field_names .data_cell .field_name{
+	display:inline-block;
+}
 table tr.editing .data_cell .field input[type="text"]{
 	display:inline-block;
 }
@@ -77,4 +98,16 @@ table tr.editing .save_btn{
 }
 table tr.editing .actions a{
 	display:none;
+}
+#filters_div{
+	margin-bottom:20px;
+}
+#filter{
+	border:1px solid #ccc;
+	padding:10px 20px;
+	display:block;
+	min-width:480px;
+	font-size:24px;
+	margin:10px auto;
+	text-align:center;
 }
