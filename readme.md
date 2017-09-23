@@ -17,6 +17,7 @@
 
 ### Known Bugs
 
+* Not working on Gmail.
 * In place of browser actions, we should probably use *page actions*, so that changing of browser actions does not persist when we focus another tab. Or probably we need to find another way around this persistence.
 
 
