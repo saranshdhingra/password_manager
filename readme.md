@@ -13,6 +13,12 @@
 * You can view all saved passwords in a separate page.
 * You can edit/delete a set of passwords.
 * Filter/search a record by a keyword.
+* Different browser actions for pages we have passwords stored.
+
+### Known Bugs
+
+* In place of browser actions, we should probably use *page actions*, so that changing of browser actions does not persist when we focus another tab. Or probably we need to find another way around this persistence.
+
 
 ### Why haven't I used *webRequests*
 In previous commits you might find an implementation(raw) for webrequests. But I realized, webrequests get data at a very later stage. Webpage JS might have encoded the data by then, or a lot of extra data might be present, CSR tokens, oauth tokens and many other hidden fields.

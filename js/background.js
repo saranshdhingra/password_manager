@@ -7,7 +7,24 @@ var db_req = window.indexedDB.open("pass_logs", 1);
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
 	var trans=window.db_req.result.transaction(["logs"], 'readwrite'),
 		store=trans.objectStore("logs");
-	if(request.action=="save_data"){
+
+	if(request.action=="loaded"){
+		store.getAll().onsuccess=function(e){
+			var records=e.target.result,
+				found=false;
+			records.map(function(record){
+				if(record.host==request.host){
+					found=true;
+					return;
+				}
+			});
+			if(found)
+				chrome.browserAction.setIcon({path:"images/icons/active_64.png"});
+			else
+				chrome.browserAction.setIcon({path:"images/icons/inactive_64.png"});
+		}
+	}
+	else if(request.action=="save_data"){
 		store.add({host:request.host,data:request.data,time:(new Date()).toJSON()});
 		sendResponse({});
 	}

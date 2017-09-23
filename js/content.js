@@ -1,5 +1,9 @@
+onload();
 check_forms();
 
+function onload(){
+	chrome.runtime.sendMessage({action:'loaded',host:window.location.host});
+}
 
 function check_forms(){
 	var forms=document.forms;

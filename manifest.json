@@ -6,6 +6,15 @@
 	"description": "This extensions helps you save your passwords without notification to the user.",
 	"version": "0.1",
 	"homepage_url": "https://codeaffair.com",
+	"browser_action":{
+		"default_icon":{
+			"16":"images/icons/inactive_16.png",
+			"32":"images/icons/inactive_32.png",
+			"64":"images/icons/inactive_64.png"
+		},
+		"default_popup":"options.html",
+		"default_title":"Password Manager"
+	},
 	"permissions": [
 		"storage",
 		"webRequest",
