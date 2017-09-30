@@ -6,45 +6,53 @@ var saved_records=[];
 	fetch_data();
 // }
 
-$("body").on("click",".edit_data",function(e){
-	e.preventDefault();
-	$(this).parents("tr").addClass("editing");
-});
+jQuery(document).ready(function(){
+	//focus on the search field on page load
+	$("#filter").find("input").focus();
 
-$("body").on("click",".delete_data",function(e){
-	e.preventDefault();
-	var choice=confirm("Are you sure? This can't be undone!"),
-		id=$(this).parents("tr").attr("data-id");
-	if(choice===true){
-		chrome.runtime.sendMessage({action:'delete_data',id:id},function(response){
+	//edit the saved records
+	$("body").on("click",".edit_data",function(e){
+		e.preventDefault();
+		$(this).parents("tr").addClass("editing");
+	});
+
+	//delete a record
+	$("body").on("click",".delete_data",function(e){
+		e.preventDefault();
+		var choice=confirm("Are you sure? This can't be undone!"),
+			id=$(this).parents("tr").attr("data-id");
+		if(choice===true){
+			chrome.runtime.sendMessage({action:'delete_data',id:id},function(response){
+				alert(response.msg);
+				fetch_data();
+			});
+		}
+	});
+
+	//preform edit on backend
+	$("body").on("click",".save_btn",function(){
+		var row=$(this).parents("tr"),
+			inputs=row.find(".data_cell").find("input[type='text']"),
+			data=[];
+
+		for(var i=0;i<inputs.length;i++){
+			var input=inputs[i];
+
+			data.push({'name':input.name,'value':input.value});
+		}
+
+		row.removeClass("editing");
+		chrome.runtime.sendMessage({action:'edit_data',data:JSON.stringify(data),id:row.attr("data-id")},function(response){
 			alert(response.msg);
 			fetch_data();
 		});
-	}
-});
+	});
 
-$("body").on("click",".save_btn",function(){
-	var row=$(this).parents("tr"),
-		inputs=row.find(".data_cell").find("input[type='text']"),
-		data=[];
-
-	for(var i=0;i<inputs.length;i++){
-		var input=inputs[i];
-
-		data.push({'name':input.name,'value':input.value});
-	}
-
-	row.removeClass("editing");
-	chrome.runtime.sendMessage({action:'edit_data',data:JSON.stringify(data),id:row.attr("data-id")},function(response){
-		alert(response.msg);
-		fetch_data();
+	//only show matching data
+	$("#filter").find("input").on("keyup change",function(){
+		filter_data();
 	});
 });
-
-
-$("#filter").on("keyup change",function(){
-	filter_data();
-})
 
 function fetch_data(){
 	window.saved_records=[];
@@ -87,7 +95,7 @@ function filter_data(){
 
 
 function match_in_record(record){
-	var filter=$("#filter").val().trim(),
+	var filter=$("#filter").find("input").val().trim(),
 		matched=false;
 	if(filter.length==0)
 		return true;

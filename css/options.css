@@ -18,6 +18,37 @@ body{
 	text-align:center;
 	min-height:100vh;
 }
+#root header{
+	margin-bottom:20px;
+	display: flex;
+	justify-content: space-between;
+	align-items:center;
+	padding: 20px 40px;
+}
+#root header h3{
+	font-size:30px;
+	font-weight:500;
+}
+#filter{
+	position:relative;
+}
+#filter input{
+	border: 1px solid #ccc;
+	padding: 10px;
+	display: block;
+	width: 200px;
+	font-size: 16px;
+	border-radius:20px;
+}
+#filter input:focus{
+	outline:none;
+}
+#filter .fa{
+	position:absolute;
+	right:5px;
+	top:50%;
+	transform:translateY(-50%);
+}
 .btn{
 	cursor:pointer;
 	color:#fff;
@@ -39,9 +70,16 @@ body{
 #saved_div.yes>table{
 	display:table;
 }
+#saved_div .no_records{
+	font-size:24px;
+}
+#saved_div .no_records .fa{
+	display: block;
+	font-size: 50px;
+	color: #fd6d6d;
+}
 table{
 	border-collapse:collapse;
-	border:1px solid #ccc;
 	margin:auto;
 }
 table thead tr{
@@ -103,16 +141,4 @@ table tr.editing .save_btn{
 }
 table tr.editing .actions a{
 	display:none;
-}
-#filters_div{
-	margin-bottom:20px;
-}
-#filter{
-	border:1px solid #ccc;
-	padding:10px 20px;
-	display:block;
-	min-width:480px;
-	font-size:24px;
-	margin:10px auto;
-	text-align:center;
 }

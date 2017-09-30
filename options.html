@@ -10,12 +10,13 @@
 </head>
 <body>
 	<div id="root">
-		<h3>Saved Records</h3>
-		<div id="filters_div">
-			<div>
-				<input type="text" id="filter" placeholder="FILTER/SEARCH">
+		<header>
+			<h3>SAVED RECORDS</h3>
+			<div id="filter">
+				<input type="text" placeholder="Search">
+				<i class="fa fa-search"></i>
 			</div>
-		</div>
+		</header>
 		<div id="saved_div" class="no">
 			<table id="saved_records">
 				<thead>
@@ -31,6 +32,7 @@
 				</tbody>
 			</table>
 			<div class="no_records">
+				<i class="fa fa-frown"></i>
 				No saved records yet! Go and login somewhere!
 			</div>
 		</div>
