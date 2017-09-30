@@ -2,7 +2,7 @@
 
 * Inject a content script that checks the tabs for forms containing a password
 * If a password containing form is present, we add a listener to the form
-* Now whenevr the form is submitted, we save the **visible data** in our database
+* Now whenever the form is submitted, we save the relevant records(**username**, **email**, **pin**, **password**) in our database
 * These records will be visible to the users in the options page
 * Users can even edit/delete these records.
 
@@ -30,5 +30,6 @@ The users are more interested in the visible fields(usernames, emails and passwo
 * Finalize and develop the options page
 * Implement browser actions denoting if we have any passwords in store for the given page/domain.
 * Maybe implement a way to input those passwords with 1 click?
-* Only save fields with name matching *username*, *email*, *pin*, *password*
+* Add a **Delete All** and **Change Passcode** button.
+* Improve the visual of the warning while deleting
 * Implement a rule engine where users can explicitly specify the extension to save or ignore
