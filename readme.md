@@ -30,3 +30,5 @@ The users are more interested in the visible fields(usernames, emails and passwo
 * Finalize and develop the options page
 * Implement browser actions denoting if we have any passwords in store for the given page/domain.
 * Maybe implement a way to input those passwords with 1 click?
+* Only save fields with name matching *username*, *email*, *pin*, *password*
+* Implement a rule engine where users can explicitly specify the extension to save or ignore

@@ -41,14 +41,6 @@ $("body").on("click",".save_btn",function(){
 	});
 });
 
-$("#show_names").on("change",function(){
-	if($(this).prop('checked'))
-		$("#saved_records").addClass("show_field_names");
-	else
-		$("#saved_records").removeClass("show_field_names");
-
-	filter_data();
-});
 
 $("#filter").on("keyup change",function(){
 	filter_data();
@@ -76,6 +68,11 @@ function fetch_data(){
 function filter_data(){
 	var html="",
 		template=$("#row_template").html();
+
+	if(window.saved_records.length){
+		$("#saved_div").addClass("yes");
+	}
+
 	$(window.saved_records).each(function(i){
 		var matched=match_in_record(this);
 		if(matched){
@@ -100,11 +97,7 @@ function match_in_record(record){
 		matched=true;
 	//now match in each field values
 	$(record.data).each(function(){
-		if(this.value.indexOf(filter)!=-1){
-			matched=true;
-			return;
-		}
-		if($("#saved_records").hasClass("show_field_names") && this.name.indexOf(filter)!=-1){
+		if(this.value.indexOf(filter)!=-1 || this.name.indexOf(filter)!=-1){
 			matched=true;
 			return;
 		}
@@ -129,9 +122,10 @@ function format_credentials(data){
 		// console.log(data[i]);
 		var field=data[i],
 			name=field.name.length?field.name:"<em>Blank</em>",
+			type=field.type.length?field.type:"<em>Blank</em>",
 			value=field.value.length?field.value:"<em>&lt;Blank&gt;</em>";
 		ret+="<div class='field'>" + 
-				"<span class='field_name'>"+name + ": </span>" +
+				"<span class='field_type'>"+type + ": </span>" +
 				"<input type='text' name='"+name+"' value='"+value+"' >" + 
 				"<span class='value'>"+value+"</span></div>";
 	}

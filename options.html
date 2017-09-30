@@ -4,6 +4,7 @@
 	<title>Password Logger Options Page</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
 	<link rel="stylesheet" href="css/fontello.css">
 	<link rel="stylesheet" href="css/options.css">
 </head>
@@ -12,25 +13,27 @@
 		<h3>Saved Records</h3>
 		<div id="filters_div">
 			<div>
-				<label for="show_names"><input type="checkbox" id="show_names">Show Field Names</label>
-			</div>
-			<div>
 				<input type="text" id="filter" placeholder="FILTER/SEARCH">
 			</div>
 		</div>
-		<table id="saved_records">
-			<thead>
-				<tr>
-					<td>S.No.</td>
-					<td>Host</td>
-					<td>Credentials</td>
-					<td>Saved On</td>
-					<td>&nbsp;</td>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
+		<div id="saved_div" class="no">
+			<table id="saved_records">
+				<thead>
+					<tr>
+						<td>S.No.</td>
+						<td>Host</td>
+						<td>Credentials</td>
+						<td>Saved On</td>
+						<td>&nbsp;</td>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<div class="no_records">
+				No saved records yet! Go and login somewhere!
+			</div>
+		</div>
 	</div>
 	<script type="text/x-template" id="row_template">
 		<tr data-id="{{id}}">
